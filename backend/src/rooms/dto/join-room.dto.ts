@@ -1,7 +1,7 @@
 import { IsString, Length } from 'class-validator';
 
-export class CreateRoomDto {
+export class JoinRoomDto {
   @IsString()
-  @Length(1, 30)
-  title: string;
+  @Length(6, 6)
+  inviteCode: string;
 }

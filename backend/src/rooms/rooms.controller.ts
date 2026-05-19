@@ -1,34 +1,50 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+
 import { RoomsService } from './rooms.service';
+
 import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from './dto/update-room.dto';
+import { JoinRoomDto } from './dto/join-room.dto';
 
 @Controller('rooms')
 export class RoomsController {
-  constructor(private readonly roomsService: RoomsService) {}
+  constructor(
+    private readonly roomsService: RoomsService,
+  ) {}
 
+  // 방 생성
   @Post()
-  create(@Body() createRoomDto: CreateRoomDto) {
-    return this.roomsService.create(createRoomDto);
+  createRoom(
+    @Body() dto: CreateRoomDto,
+  ) {
+    return this.roomsService.createRoom(
+      1,
+      dto,
+    );
   }
 
-  @Get()
-  findAll() {
-    return this.roomsService.findAll();
+  // 초대코드 입장
+  @Post('join')
+  joinRoom(
+    @Body() dto: JoinRoomDto,
+  ) {
+    return this.roomsService.joinRoom(
+      1,
+      dto,
+    );
   }
 
+  // 방 조회
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roomsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomsService.update(+id, updateRoomDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roomsService.remove(+id);
+  getRoom(
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.roomsService.getRoom(id);
   }
 }

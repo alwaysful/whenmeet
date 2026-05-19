@@ -1,0 +1,116 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Provider {
+  GOOGLE
+  APPLE
+}
+
+enum Preference {
+  NO
+  MAYBE
+  YES
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+
+  email          String    @unique
+
+  nickname       String
+
+  profileImage   String?
+
+  provider       Provider
+  providerId     String
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  createdRooms   Room[]           @relation("RoomCreator")
+  roomMembers    RoomMember[]
+  availabilities Availability[]
+
+  @@unique([provider, providerId])
+}
+
+model Room {
+  id            Int       @id @default(autoincrement())
+
+  title         String
+
+  inviteCode    String    @unique
+
+  createdById   Int
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  creator       User      @relation(
+    "RoomCreator",
+    fields: [createdById],
+    references: [id]
+  )
+
+  members       RoomMember[]
+  availabilities Availability[]
+}
+
+model RoomMember {
+  id          Int      @id @default(autoincrement())
+
+  roomId      Int
+  userId      Int
+
+  joinedAt    DateTime @default(now())
+
+  room        Room @relation(
+    fields: [roomId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  user        User @relation(
+    fields: [userId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@unique([roomId, userId])
+}
+
+model Availability {
+  id            Int         @id @default(autoincrement())
+
+  roomId        Int
+  userId        Int
+
+  date          DateTime
+
+  preference    Preference
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  room          Room @relation(
+    fields: [roomId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  user          User @relation(
+    fields: [userId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@unique([roomId, userId, date])
+}
