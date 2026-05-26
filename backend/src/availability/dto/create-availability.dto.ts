@@ -12,22 +12,22 @@ export class DatePreferenceItemDto {
   @ApiProperty({ description: '날짜', example: '2024-01-15' })
   @Type(() => Date)
   @IsDate()
-  date: Date;
+  date!: Date;
 
   @ApiProperty({ enum: PreferenceType, example: 'GOOD' })
   @IsEnum(PreferenceType)
-  preference: PreferenceType;
+  preference!: PreferenceType;
 }
 
 export class CreateAvailabilityDto {
   @ApiProperty({ description: '방 ID', example: 1 })
   @IsInt()
   @IsNotEmpty()
-  roomId: number;
+  roomId!: number;
 
   @ApiProperty({ type: [DatePreferenceItemDto] })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => DatePreferenceItemDto)
-  preferences: DatePreferenceItemDto[];
+  preferences!: DatePreferenceItemDto[];
 }

@@ -15,7 +15,7 @@ export class DatePreferenceItemDto {
   })
   @Type(() => Date)
   @IsDate()
-  date: Date;
+  date!: Date;
 
   @ApiProperty({
     description: '선호도 (GOOD: 좋음/초록, NEUTRAL: 보통/노랑, BAD: 나쁨/빨강)',
@@ -23,7 +23,7 @@ export class DatePreferenceItemDto {
     example: 'GOOD',
   })
   @IsEnum(PreferenceType)
-  preference: PreferenceType;
+  preference!: PreferenceType;
 }
 
 export class SaveDatePreferencesDto {
@@ -32,7 +32,7 @@ export class SaveDatePreferencesDto {
     example: 1,
   })
   @IsInt()
-  roomId: number;
+  roomId!: number;
 
   @ApiProperty({
     description: '날짜 선호도 목록 (1개 이상)',
@@ -46,5 +46,5 @@ export class SaveDatePreferencesDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => DatePreferenceItemDto)
-  preferences: DatePreferenceItemDto[];
+  preferences!: DatePreferenceItemDto[];
 }

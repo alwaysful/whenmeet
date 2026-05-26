@@ -11,5 +11,5 @@ export class InviteCodeDto {
   @IsString()
   @IsNotEmpty()
   @Length(8, 8, { message: '초대코드는 8자리여야 합니다.' })
-  inviteCode: string;
+  inviteCode!: string;
 }

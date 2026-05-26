@@ -12,7 +12,7 @@ export class CreateUserDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @ApiProperty({
     description: '사용자 이름',
@@ -20,7 +20,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     description: 'OAuth 제공자',
@@ -29,7 +29,7 @@ export class CreateUserDto {
   })
   @IsEnum(AuthProvider)
   @IsNotEmpty()
-  provider: AuthProvider;
+  provider!: AuthProvider;
 
   @ApiProperty({
     description: 'OAuth 제공자의 사용자 ID',
@@ -37,7 +37,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  providerId: string;
+  providerId!: string;
 
   @ApiProperty({
     description: '프로필 이미지 URL',
