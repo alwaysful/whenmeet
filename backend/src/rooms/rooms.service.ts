@@ -12,7 +12,7 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 export class RoomsService {
   constructor(private prisma: PrismaService) {}
 
-  async createRoom(dto: CreateRoomDto) {
+  async createRoom(dto: CreateRoomDto, creatorId: number) {
     // 초대코드 생성
     const inviteCode = this.generateInviteCode();
 
@@ -24,7 +24,7 @@ export class RoomsService {
         inviteCode,
         members: {
           create: {
-            userId: dto.creatorId,
+            userId: creatorId,
           },
         },
       },
